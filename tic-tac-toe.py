@@ -115,30 +115,52 @@ class player():
 
 class game():
 
-    def __init__(self):
+    def __init__(self, players):
+        self._players = players
+        # self
+
+    # def 
 
 
 
+print('\nPlayer 1 choose between markers X or O')
+
+marker_player_1 = input('')
+
+dumb_player_count = 0
+while marker_player_1 not in ['X', 'O']:
+    print('You didnt chose a valid marker try again!')
+    marker_player_1 = input('')
+    dumb_player_count += 1
+    
+    if dumb_player_count == 2:
+        exit('You are boring go play Tibia!')
+
+
+player_1 = player(marker_player_1)
+
+player_2_marker = ['X', 'O'].remove(marker_player_1)
+
+
+print(player_2_marker)
+
+# print('\nPlayer 1 choose your marker:')
 
 
 
-bg = board_game()
+# player_1 = player('X')
+# player_2 = player('O')
 
-bg.print_board_coordinates()
-bg.print_board()
-print(bg.markers)
-bg.mark_board('X', 1)
-bg.print_board()
-bg.mark_board('O', 2)
-bg.print_board()
+# bg = board_game()
 
+# bg.print_board_coordinates()
+# bg.print_board()
 
-player_1 = player('X')
-print(player_1.marker)
-print(player_1.make_move(4))
-marker, position = player_1.make_move(4)
-bg.mark_board(marker, position)
-bg.print_board()
+# print(player_1.marker)
+# print(player_1.make_move(4))
+# marker, position = player_1.make_move(4)
+# bg.mark_board(marker, position)
+# bg.print_board()
 
 
 
