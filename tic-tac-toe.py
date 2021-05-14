@@ -124,11 +124,12 @@ class game():
 
 
 print('\nPlayer 1 choose between markers X or O')
+game_markers = ['X', 'O']
 
 marker_player_1 = input('')
 
 dumb_player_count = 0
-while marker_player_1 not in ['X', 'O']:
+while marker_player_1 not in game_markers:
     print('You didnt chose a valid marker try again!')
     marker_player_1 = input('')
     dumb_player_count += 1
@@ -138,12 +139,19 @@ while marker_player_1 not in ['X', 'O']:
 
 
 player_1 = player(marker_player_1)
+marker_player_2 = [_ for _ in game_markers if _ != marker_player_1][0]
+player_2 = player(marker_player_2)
 
-player_2_marker = ['X', 'O'].remove(marker_player_1)
+
+print(f'\nPlayer 1 marker: {player_1.marker}')
+print(f'Player 2 marker: {player_2.marker}\n')
 
 
-print(player_2_marker)
+print('Are you going to choose who plays first or should we chose randomly?')
+_ = input('press R for randomly picking the fisrt player:\n')
 
+if _ in ['r', 'R']:
+    
 # print('\nPlayer 1 choose your marker:')
 
 
