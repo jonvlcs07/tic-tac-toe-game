@@ -1,7 +1,8 @@
 #!usr/bin/env python3
 import re
+import numpy as np
  
-class board_game():
+class Board_Game():
 
     def __init__(self):
         
@@ -80,7 +81,7 @@ class board_game():
             self.avaliable_positions.remove(position)
 
 
-class player():
+class Player():
     
     def __init__(self, marker, first_play = False):
         
@@ -113,13 +114,11 @@ class player():
         self.avaliable_positions = avaliable_positions
 
 
-class game():
+class Game():
 
-    def __init__(self, players):
+    def __init__(self, players, board):
         self._players = players
-        # self
-
-    # def 
+        self._board = board
 
 
 
@@ -138,20 +137,34 @@ while marker_player_1 not in game_markers:
         exit('You are boring go play Tibia!')
 
 
-player_1 = player(marker_player_1)
+player_1 = Player(marker_player_1)
 marker_player_2 = [_ for _ in game_markers if _ != marker_player_1][0]
-player_2 = player(marker_player_2)
+player_2 = Player(marker_player_2)
 
 
 print(f'\nPlayer 1 marker: {player_1.marker}')
 print(f'Player 2 marker: {player_2.marker}\n')
 
+g = Game([player_1, player_2])
 
 print('Are you going to choose who plays first or should we chose randomly?')
-_ = input('press R for randomly picking the fisrt player:\n')
+_ = input('press R for randomly picking the first player:\n')
 
 if _ in ['r', 'R']:
-    
+    idx = np.random.choice([0, 1])
+    g._players[idx].first_play = True
+    print(f"Player {idx + 1} plays first")
+
+else:
+    _ = input('Press 1 if you want to Player 1 to start:\n')
+
+    if _ == '1':
+        print(f"Player 1 plays first")
+    else:
+        print(f"Player 2 plays first")
+
+
+
 # print('\nPlayer 1 choose your marker:')
 
 
