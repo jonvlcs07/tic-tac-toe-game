@@ -119,6 +119,14 @@ class Game():
     def __init__(self, players, board):
         self._players = players
         self._board = board
+    
+    def choose_first_player(self, first_player: int):
+        """
+        """
+
+        self._players[first_player].first_play = True
+        self._first_player = first_player + 1
+
 
 
 
@@ -162,6 +170,7 @@ else:
         print(f"Player 1 plays first")
     else:
         print(f"Player 2 plays first")
+
 
 
 
