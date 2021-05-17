@@ -95,6 +95,12 @@ class Player():
                                     4, 5, 6,
                                     7, 8, 9]
 
+    def __repr__(self):
+        return "Player()"
+
+    def __str__(self):
+        return f"Player {self.marker}"
+
 
     def make_move(self, position):
 
@@ -124,7 +130,7 @@ class Game():
         """
         """
 
-        self._players[first_player].first_play = True
+        self._players[first_player]._first_play = True
         self._first_player = first_player + 1
 
 
@@ -153,26 +159,29 @@ player_2 = Player(marker_player_2)
 print(f'\nPlayer 1 marker: {player_1.marker}')
 print(f'Player 2 marker: {player_2.marker}\n')
 
-g = Game([player_1, player_2])
+board = Board_Game()
+game = Game([player_1, player_2], board)
 
 print('Are you going to choose who plays first or should we chose randomly?')
 _ = input('press R for randomly picking the first player:\n')
 
 if _ in ['r', 'R']:
     idx = np.random.choice([0, 1])
-    g._players[idx].first_play = True
-    print(f"Player {idx + 1} plays first")
+    game.choose_first_player(idx) 
+    print(f"\nPlayer {idx + 1} plays first")
 
 else:
     _ = input('Press 1 if you want to Player 1 to start:\n')
 
     if _ == '1':
+        game.choose_first_player(0) 
         print(f"Player 1 plays first")
     else:
+        game.choose_first_player(1) 
         print(f"Player 2 plays first")
 
-
-
+print('Player 1 plays first', game._players[0]._first_play)
+print('Player 2 plays first', game._players[1]._first_play)
 
 # print('\nPlayer 1 choose your marker:')
 
