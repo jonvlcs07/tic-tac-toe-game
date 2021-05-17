@@ -132,6 +132,11 @@ class Game():
 
         self._players[first_player]._first_play = True
         self._first_player = first_player + 1
+        self._player_time = first_player
+
+    def _change_player_time(self):
+
+        self._player_time = (self._player_time + 1) % 2
 
 
 
@@ -183,7 +188,10 @@ else:
 print('Player 1 plays first', game._players[0]._first_play)
 print('Player 2 plays first', game._players[1]._first_play)
 
-# print('\nPlayer 1 choose your marker:')
+jogada = 0 
+for _ in range(10):
+    print('Vez do jogador', game._player_time + 1)
+    game._change_player_time()
 
 
 
