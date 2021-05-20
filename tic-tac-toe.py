@@ -96,8 +96,10 @@ class Player():
                                     4, 5, 6,
                                     7, 8, 9]
 
+
     def __repr__(self):
         return "Player()"
+
 
     def __str__(self):
         return f"Player {self.marker}"
@@ -108,13 +110,16 @@ class Player():
         mark = self.marker
         return mark, position
 
+
     def ack_own_position(self, position):
 
         self.owned_positions.append(position)
 
+
     def look_adversary_position(self, position):
 
         self.adversary_position.append(position)
+
 
     def look_game_board(self, avaliable_positions):
 
@@ -134,6 +139,7 @@ class Game():
                                   [3, 6, 9],
                                   [1, 5, 9],
                                   [3, 5, 7]]   
+        self.game_won = False
 
 
     def choose_first_player(self, first_player: int):
@@ -161,15 +167,19 @@ class Game():
                 print('Player ', player.marker, 'has won')
 
     
-    def _play_game(self):
+    def _play_game(self, position):
         """
         """
         
-        self._players[self.player_time]
+        _player = self._players[self._player_time]
+        _move = _player.make_move(position)
+        _mark = _player.marker    
+        self._board.mark_board(_mark, position)
+        print(move)
 
 
 
-
+# Main Game
 
 # Game beggining who plays first and markers attribution
 print('\nPlayer 1 choose between markers X or O')
@@ -219,10 +229,16 @@ else:
         print(f"Player 2 plays first")
 
 
+game._board.print_board()
+game._board.print_board_coordinates()
+move = int(input('Choose a position:\n'))
+game._play_game(move)
+game._board.print_board()
+
 jogada = 0 
-for _ in range(10):
-    print('Vez do jogador', game._player_time + 1)
-    game._change_player_time()
+# for _ in range(10):
+#     print('Vez do jogador', game._player_time + 1)
+#     game._change_player_time()
 
 
 
