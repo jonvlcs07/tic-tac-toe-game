@@ -86,6 +86,7 @@ class Player():
     def __init__(self, marker, first_play = False):
         
         assert marker in ['X', 'O'], f'Marker not allowed'
+        
         self.marker = marker
 
         self._first_play = first_play
@@ -125,7 +126,16 @@ class Game():
     def __init__(self, players, board):
         self._players = players
         self._board = board
-    
+        self.winning_condition = [[1, 2, 3],
+                                  [4, 5, 6], 
+                                  [7, 8, 9], 
+                                  [1, 4, 7],
+                                  [2, 5, 8],
+                                  [3, 6, 9],
+                                  [1, 5, 9],
+                                  [3, 5, 7]]   
+
+
     def choose_first_player(self, first_player: int):
         """
         """
@@ -134,13 +144,34 @@ class Game():
         self._first_player = first_player + 1
         self._player_time = first_player
 
+
     def _change_player_time(self):
+        """
+        """
 
         self._player_time = (self._player_time + 1) % 2
 
 
+    def _check_wining_condition(self, player):
+        """
+        """
+
+        for w in self.winning_condition:
+            if set(w).issubset(player.owned_positions):
+                print('Player ', player.marker, 'has won')
+
+    
+    def _play_game(self):
+        """
+        """
+        
+        self._players[self.player_time]
 
 
+
+
+
+# Game beggining who plays first and markers attribution
 print('\nPlayer 1 choose between markers X or O')
 game_markers = ['X', 'O']
 
@@ -167,6 +198,7 @@ print(f'Player 2 marker: {player_2.marker}\n')
 board = Board_Game()
 game = Game([player_1, player_2], board)
 
+
 print('Are you going to choose who plays first or should we chose randomly?')
 _ = input('press R for randomly picking the first player:\n')
 
@@ -174,6 +206,7 @@ if _ in ['r', 'R']:
     idx = np.random.choice([0, 1])
     game.choose_first_player(idx) 
     print(f"\nPlayer {idx + 1} plays first")
+
 
 else:
     _ = input('Press 1 if you want to Player 1 to start:\n')
@@ -185,13 +218,13 @@ else:
         game.choose_first_player(1) 
         print(f"Player 2 plays first")
 
-print('Player 1 plays first', game._players[0]._first_play)
-print('Player 2 plays first', game._players[1]._first_play)
 
 jogada = 0 
 for _ in range(10):
     print('Vez do jogador', game._player_time + 1)
     game._change_player_time()
+
+
 
 
 
