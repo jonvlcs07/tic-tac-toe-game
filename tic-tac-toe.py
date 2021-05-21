@@ -95,6 +95,7 @@ class Player():
         self.avaliable_positions = [1, 2, 3,
                                     4, 5, 6,
                                     7, 8, 9]
+        self.winner = False
 
 
     def __repr__(self):
@@ -118,7 +119,7 @@ class Player():
 
     def look_adversary_position(self, position):
 
-        self.adversary_position.append(position)
+        self.adversary_positions.append(position)
 
 
     def look_game_board(self, avaliable_positions):
@@ -140,6 +141,7 @@ class Game():
                                   [1, 5, 9],
                                   [3, 5, 7]]   
         self.game_won = False
+        self.play_count = 0
 
 
     def choose_first_player(self, first_player: int):
@@ -156,15 +158,20 @@ class Game():
         """
 
         self._player_time = (self._player_time + 1) % 2
+        self.play_count += 1
 
 
-    def _check_wining_condition(self, player):
+    def _check_winning_condition(self, player):
         """
         """
 
         for w in self.winning_condition:
             if set(w).issubset(player.owned_positions):
-                print('Player ', player.marker, 'has won')
+                player.winner = True
+                print('Player', player.marker, 'has won')
+                self.game_won = True
+            if self.play_count == 9:
+                print('DRAW!!!')
 
     
     def _play_game(self, position):
@@ -172,10 +179,16 @@ class Game():
         """
         
         _player = self._players[self._player_time]
+        _other_player = self._players[(self._player_time + 1) % 2]
         _move = _player.make_move(position)
         _mark = _player.marker    
+        
+        # Actions
         self._board.mark_board(_mark, position)
-        print(move)
+        _player.ack_own_position(position)
+        _other_player.look_adversary_position(position)
+
+        self._check_winning_condition(_player)
 
 
 
@@ -229,35 +242,16 @@ else:
         print(f"Player 2 plays first")
 
 
-game._board.print_board()
-game._board.print_board_coordinates()
-move = int(input('Choose a position:\n'))
-game._play_game(move)
-game._board.print_board()
-
-jogada = 0 
-# for _ in range(10):
-#     print('Vez do jogador', game._player_time + 1)
-#     game._change_player_time()
+while game.game_won == False:
+    player = game._player_time + 1
+    game._board.print_board()
+    game._board.print_board_coordinates()
+    move = int(input(f'Player {player} choose a position:\n'))
+    game._play_game(move)
+    game._change_player_time()
 
 
-
-
-
-# player_1 = player('X')
-# player_2 = player('O')
-
-# bg = board_game()
-
-# bg.print_board_coordinates()
-# bg.print_board()
-
-# print(player_1.marker)
-# print(player_1.make_move(4))
-# marker, position = player_1.make_move(4)
-# bg.mark_board(marker, position)
-# bg.print_board()
-
+# jogada = 0 
 
 
 #    |   |
