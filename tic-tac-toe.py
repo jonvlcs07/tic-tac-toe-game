@@ -67,18 +67,23 @@ class Board_Game():
 
     def mark_board(self, marker, position):
 
-        if marker not in ['X', 'O']:
-            print('Wrong marker try again!')
+        _valid_play = 0
 
-        elif position not in self.positions:
-            print('Invalid move')
-        
-        elif position not in self.avaliable_positions:
-            print("Position already taken, choose another")
+        while _valid_play != 1:
 
-        else:    
-            self.markers[marker].append(position)
-            self.avaliable_positions.remove(position)
+            if marker not in ['X', 'O']:
+                print('Wrong marker try again!')
+
+            elif position not in self.positions or position not in self.avaliable_positions:
+                position = int(input('Invalid move, choose another position\n'))
+
+            else:    
+                _valid_play = 1
+                print("Valid play")
+                self.markers[marker].append(position)
+                self.avaliable_positions.remove(position)
+
+        return position
 
 
 class Player():
@@ -142,6 +147,7 @@ class Game():
                                   [3, 5, 7]]   
         self.game_won = False
         self.play_count = 0
+        self.game_winning_outcome = None
 
 
     def choose_first_player(self, first_player: int):
@@ -170,8 +176,12 @@ class Game():
                 player.winner = True
                 print('Player', player.marker, 'has won')
                 self.game_won = True
-            if self.play_count == 9:
-                print('DRAW!!!')
+                self.game_winning_outcome = player.marker
+                break
+
+        if self.play_count == 8 and  not self.game_won:
+            self.game_winning_outcome = "Draw"
+            print('DRAW!!!')
 
     
     def _play_game(self, position):
@@ -184,9 +194,10 @@ class Game():
         _mark = _player.marker    
         
         # Actions
-        self._board.mark_board(_mark, position)
-        _player.ack_own_position(position)
-        _other_player.look_adversary_position(position)
+        new_position = self._board.mark_board(_mark, position)
+
+        _player.ack_own_position(new_position)
+        _other_player.look_adversary_position(new_position)
 
         self._check_winning_condition(_player)
 
@@ -205,7 +216,6 @@ while marker_player_1 not in game_markers:
     print('You didnt chose a valid marker try again!')
     marker_player_1 = input('')
     dumb_player_count += 1
-    
     if dumb_player_count == 2:
         exit('You are boring go play Tibia!')
 
@@ -241,14 +251,19 @@ else:
         game.choose_first_player(1) 
         print(f"Player 2 plays first")
 
+stop_game = False
 
-while game.game_won == False:
+while not stop_game:
     player = game._player_time + 1
-    game._board.print_board()
     game._board.print_board_coordinates()
+    game._board.print_board()
     move = int(input(f'Player {player} choose a position:\n'))
     game._play_game(move)
     game._change_player_time()
+    if game.game_won == True or game.game_winning_outcome == 'Draw':
+        stop_game = True 
+
+game._board.print_board()
 
 
 # jogada = 0 
